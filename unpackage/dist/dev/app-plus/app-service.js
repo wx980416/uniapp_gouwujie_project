@@ -29,7 +29,7 @@ if (typeof uni !== "undefined" && uni && uni.requireGlobal) {
 if (uni.restoreGlobal) {
   uni.restoreGlobal(Vue, weex, plus, setTimeout, clearTimeout, setInterval, clearInterval);
 }
-(function(vue) {
+(function(vue, shared) {
   "use strict";
   const ON_LOAD = "onLoad";
   function formatAppLog(type, filename, ...args) {
@@ -38,6 +38,9 @@ if (uni.restoreGlobal) {
     } else {
       console[type].apply(console, [...args, filename]);
     }
+  }
+  function resolveEasycom(component, easycom) {
+    return shared.isString(component) ? easycom : component;
   }
   const createHook = (lifecycle) => (hook, target = vue.getCurrentInstance()) => {
     !vue.isInSSRComponentSetup && vue.injectHook(lifecycle, hook, target);
@@ -50,70 +53,37 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  const _sfc_main$5 = {
-    __name: "home",
-    setup(__props) {
-      onLoad(() => {
-      });
+  const _sfc_main$8 = {
+    __name: "tab-control",
+    props: {
+      titles: {
+        type: Array,
+        default: () => []
+      }
+    },
+    emits: ["tabItemClick"],
+    setup(__props, { emit }) {
+      const currentIndex = vue.ref(0);
+      function handleItemClick(index) {
+        currentIndex.value = index;
+        emit("tabItemClick", index);
+      }
       return (_ctx, _cache) => {
-        return vue.openBlock(), vue.createElementBlock("view", { class: "home" }, " home ");
+        return vue.openBlock(), vue.createElementBlock("view", { class: "tab-control" }, [
+          (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(__props.titles, (title, index) => {
+            return vue.openBlock(), vue.createElementBlock("view", {
+              key: index,
+              class: vue.normalizeClass(["item", currentIndex.value === index ? "active" : ""]),
+              onClick: ($event) => handleItemClick(index)
+            }, [
+              vue.createElementVNode("text", { class: "title" }, vue.toDisplayString(title), 1)
+            ], 10, ["onClick"]);
+          }), 128))
+        ]);
       };
     }
   };
-  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/home/home.vue"]]);
-  const _sfc_main$4 = {
-    data() {
-      return {};
-    }
-  };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view");
-  }
-  const PagesCategoryCategory = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/category/category.vue"]]);
-  const _sfc_main$3 = {
-    data() {
-      return {};
-    }
-  };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view");
-  }
-  const PagesCartCart = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/cart/cart.vue"]]);
-  const _sfc_main$2 = {
-    data() {
-      return {};
-    }
-  };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view");
-  }
-  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/profile/profile.vue"]]);
-  const _sfc_main$1 = {
-    data() {
-      return {};
-    }
-  };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view");
-  }
-  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/detail/detail.vue"]]);
-  __definePage("pages/home/home", PagesHomeHome);
-  __definePage("pages/category/category", PagesCategoryCategory);
-  __definePage("pages/cart/cart", PagesCartCart);
-  __definePage("pages/profile/profile", PagesProfileProfile);
-  __definePage("pages/detail/detail", PagesDetailDetail);
-  const _sfc_main = {
-    onLaunch: function() {
-      formatAppLog("log", "at App.vue:4", "App Launch");
-    },
-    onShow: function() {
-      formatAppLog("log", "at App.vue:7", "App Show");
-    },
-    onHide: function() {
-      formatAppLog("log", "at App.vue:10", "App Hide");
-    }
-  };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/App.vue"]]);
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-86d07902"], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/components/tab-control/tab-control.vue"]]);
   var isVue2 = false;
   function set(target, key, val) {
     if (Array.isArray(target)) {
@@ -1683,6 +1653,162 @@ This will fail in production if not fixed.`);
     skipHydrate,
     storeToRefs
   }, Symbol.toStringTag, { value: "Module" }));
+  const TIME_OUT = 6e4;
+  const BASE_URL = "http://152.136.185.210:7878/api/hy66";
+  class HYRequest {
+    request(url, method, data) {
+      return new Promise((resolve, reject) => {
+        uni.request({
+          url: BASE_URL + url,
+          method: method || "GET",
+          timeout: TIME_OUT,
+          data,
+          success(res) {
+            resolve(res.data);
+          },
+          fail(err) {
+            reject(err);
+          }
+        });
+      });
+    }
+    get(url, params2) {
+      return this.request(url, "GET", params2);
+    }
+    post(url, data) {
+      return this.request(url, "POST", params);
+    }
+  }
+  const hyRequest = new HYRequest();
+  const getHomeMutidata = () => {
+    return hyRequest.get("/home/multidata", {});
+  };
+  const useHomeStore = defineStore("home", {
+    state: () => {
+      return {
+        banners: [],
+        recommends: []
+      };
+    },
+    actions: {
+      async fetchHomeMultidata() {
+        const res = await getHomeMutidata();
+        this.banners = res.data.banner.list || [];
+        this.recommends = res.data.recommend.list || [];
+      }
+    }
+  });
+  const _imports_0 = "/static/recommend_bg.jpg";
+  const _sfc_main$7 = {};
+  function _sfc_render$4(_ctx, _cache) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "popular" }, [
+      vue.createElementVNode("image", {
+        class: "image",
+        src: _imports_0,
+        mode: "widthFix"
+      })
+    ]);
+  }
+  const HomePopular = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$4], ["__scopeId", "data-v-29e3ef9e"], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/home/cpns/home-popular.vue"]]);
+  const _sfc_main$6 = {
+    __name: "home",
+    setup(__props) {
+      const homeStore = useHomeStore();
+      storeToRefs(homeStore);
+      onLoad(() => {
+        homeStore.fetchHomeMultidata();
+      });
+      function handleTabItemClick(index) {
+        formatAppLog("log", "at pages/home/home.vue:43", "handleTabItemClick=>", index);
+      }
+      return (_ctx, _cache) => {
+        const _component_tab_control = resolveEasycom(vue.resolveDynamicComponent("tab-control"), __easycom_0);
+        return vue.openBlock(), vue.createElementBlock("view", { class: "home" }, [
+          vue.createCommentVNode(" \u8F6E\u64AD\u56FE\u7EC4\u4EF6 "),
+          vue.createCommentVNode(' <home-banner :banners="banners" @bannerItemClick="handleBannerItemClick"></home-banner> '),
+          vue.createCommentVNode(" \u63A8\u8350\u680F\u7EC4\u4EF6 "),
+          vue.createCommentVNode(' <home-recommend :recommends="recommends"></home-recommend> '),
+          vue.createCommentVNode(" \u70ED\u95E8\u680F\u7EC4\u4EF6 "),
+          vue.createVNode(HomePopular),
+          vue.createCommentVNode(" \u9009\u9879\u5361\u7EC4\u4EF6 "),
+          vue.createVNode(_component_tab_control, {
+            titles: ["\u6D41\u884C", "\u65B0\u6B3E", "\u7CBE\u9009"],
+            onTabItemClick: handleTabItemClick
+          })
+        ]);
+      };
+    }
+  };
+  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/home/home.vue"]]);
+  const _sfc_main$5 = {
+    data() {
+      return {};
+    }
+  };
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view");
+  }
+  const PagesCategoryCategory = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$3], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/category/category.vue"]]);
+  const _sfc_main$4 = {
+    data() {
+      return {};
+    }
+  };
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view");
+  }
+  const PagesCartCart = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$2], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/cart/cart.vue"]]);
+  const _sfc_main$3 = {
+    data() {
+      return {};
+    }
+  };
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view");
+  }
+  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$1], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/profile/profile.vue"]]);
+  const _sfc_main$2 = {
+    data() {
+      return {};
+    }
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view");
+  }
+  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/detail/detail.vue"]]);
+  const _sfc_main$1 = {
+    __name: "webview",
+    props: {
+      link: {
+        type: String,
+        default: ""
+      }
+    },
+    setup(__props) {
+      return (_ctx, _cache) => {
+        return vue.openBlock(), vue.createElementBlock("web-view", { src: __props.link }, null, 8, ["src"]);
+      };
+    }
+  };
+  const PagesWebviewWebview = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/webview/webview.vue"]]);
+  __definePage("pages/home/home", PagesHomeHome);
+  __definePage("pages/category/category", PagesCategoryCategory);
+  __definePage("pages/cart/cart", PagesCartCart);
+  __definePage("pages/profile/profile", PagesProfileProfile);
+  __definePage("pages/detail/detail", PagesDetailDetail);
+  __definePage("pages/webview/webview", PagesWebviewWebview);
+  const _sfc_main = {
+    onLaunch: function() {
+      formatAppLog("log", "at App.vue:4", "App Launch");
+    },
+    onShow: function() {
+      formatAppLog("log", "at App.vue:7", "App Show");
+    },
+    onHide: function() {
+      formatAppLog("log", "at App.vue:10", "App Hide");
+    }
+  };
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/App.vue"]]);
   function createApp() {
     const app = vue.createVueApp(App);
     app.use(createPinia());
@@ -1699,4 +1825,4 @@ This will fail in production if not fixed.`);
   __app__._component.render = () => {
   };
   __app__.mount("#app");
-})(Vue);
+})(Vue, uni.VueShared);
