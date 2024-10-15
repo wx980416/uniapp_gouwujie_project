@@ -1,1 +1,0 @@
-<view class="home"><home-popular u-i="b4f63bd4-0" bind:__l="__l"></home-popular><tab-control wx:if="{{b}}" bindtabItemClick="{{a}}" u-i="b4f63bd4-1" bind:__l="__l" u-p="{{b}}"></tab-control></view>

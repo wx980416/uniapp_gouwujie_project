@@ -29,23 +29,8 @@ if (typeof uni !== "undefined" && uni && uni.requireGlobal) {
 if (uni.restoreGlobal) {
   uni.restoreGlobal(Vue, weex, plus, setTimeout, clearTimeout, setInterval, clearInterval);
 }
-(function(vue, shared) {
+(function(vue) {
   "use strict";
-  const ON_LOAD = "onLoad";
-  function formatAppLog(type, filename, ...args) {
-    if (uni.__log__) {
-      uni.__log__(type, filename, ...args);
-    } else {
-      console[type].apply(console, [...args, filename]);
-    }
-  }
-  function resolveEasycom(component, easycom) {
-    return shared.isString(component) ? easycom : component;
-  }
-  const createHook = (lifecycle) => (hook, target = vue.getCurrentInstance()) => {
-    !vue.isInSSRComponentSetup && vue.injectHook(lifecycle, hook, target);
-  };
-  const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
   const _export_sfc = (sfc, props) => {
     const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
@@ -53,7 +38,7 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  const _sfc_main$8 = {
+  const _sfc_main$d = {
     __name: "tab-control",
     props: {
       titles: {
@@ -62,28 +47,291 @@ if (uni.restoreGlobal) {
       }
     },
     emits: ["tabItemClick"],
-    setup(__props, { emit }) {
+    setup(__props, { expose: __expose, emit: __emit }) {
+      __expose();
+      const props = __props;
+      const emit = __emit;
       const currentIndex = vue.ref(0);
       function handleItemClick(index) {
         currentIndex.value = index;
         emit("tabItemClick", index);
       }
-      return (_ctx, _cache) => {
-        return vue.openBlock(), vue.createElementBlock("view", { class: "tab-control" }, [
-          (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(__props.titles, (title, index) => {
-            return vue.openBlock(), vue.createElementBlock("view", {
-              key: index,
-              class: vue.normalizeClass(["item", currentIndex.value === index ? "active" : ""]),
-              onClick: ($event) => handleItemClick(index)
-            }, [
-              vue.createElementVNode("text", { class: "title" }, vue.toDisplayString(title), 1)
-            ], 10, ["onClick"]);
-          }), 128))
-        ]);
-      };
+      const __returned__ = { props, emit, currentIndex, handleItemClick, ref: vue.ref };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
     }
   };
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-86d07902"], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/components/tab-control/tab-control.vue"]]);
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "tab-control" }, [
+      (vue.openBlock(true), vue.createElementBlock(
+        vue.Fragment,
+        null,
+        vue.renderList($props.titles, (title, index) => {
+          return vue.openBlock(), vue.createElementBlock("view", {
+            key: index,
+            class: vue.normalizeClass(["item", $setup.currentIndex === index ? "active" : ""]),
+            onClick: ($event) => $setup.handleItemClick(index)
+          }, [
+            vue.createElementVNode(
+              "text",
+              { class: "title" },
+              vue.toDisplayString(title),
+              1
+              /* TEXT */
+            )
+          ], 10, ["onClick"]);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ]);
+  }
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-86d07902"], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/components/tab-control/tab-control.vue"]]);
+  const ON_LOAD = "onLoad";
+  const ON_REACH_BOTTOM = "onReachBottom";
+  function formatAppLog(type, filename, ...args) {
+    if (uni.__log__) {
+      uni.__log__(type, filename, ...args);
+    } else {
+      console[type].apply(console, [...args, filename]);
+    }
+  }
+  function resolveEasycom(component, easycom) {
+    return typeof component === "string" ? easycom : component;
+  }
+  const createHook = (lifecycle) => (hook, target = vue.getCurrentInstance()) => {
+    !vue.isInSSRComponentSetup && vue.injectHook(lifecycle, hook, target);
+  };
+  const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
+  const onReachBottom = /* @__PURE__ */ createHook(ON_REACH_BOTTOM);
+  const _imports_0$1 = "/static/images/common/favor.png";
+  const _sfc_main$c = {
+    __name: "grid-view-item",
+    props: {
+      itemInfo: {
+        type: Object,
+        default: () => {
+        }
+      }
+    },
+    emits: ["itemClick"],
+    setup(__props, { expose: __expose, emit: __emit }) {
+      __expose();
+      const props = __props;
+      const emit = __emit;
+      function handleItemClick() {
+        emit("itemClick", props.itemInfo);
+      }
+      const __returned__ = { props, emit, handleItemClick };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", {
+      class: "goods-item",
+      onClick: $setup.handleItemClick
+    }, [
+      vue.createElementVNode("image", {
+        class: "image",
+        "lazy-load": true,
+        src: $props.itemInfo.show.img,
+        mode: "widthFix"
+      }, null, 8, ["src"]),
+      vue.createElementVNode("view", { class: "desc-info" }, [
+        vue.createElementVNode(
+          "view",
+          { class: "title" },
+          vue.toDisplayString($props.itemInfo.title),
+          1
+          /* TEXT */
+        ),
+        vue.createElementVNode("view", { class: "info" }, [
+          vue.createElementVNode(
+            "text",
+            { class: "price" },
+            "¥" + vue.toDisplayString($props.itemInfo.price),
+            1
+            /* TEXT */
+          ),
+          vue.createElementVNode("image", {
+            class: "icon",
+            src: _imports_0$1,
+            mode: ""
+          }),
+          vue.createElementVNode(
+            "text",
+            { class: "cfav" },
+            vue.toDisplayString($props.itemInfo.cfav),
+            1
+            /* TEXT */
+          )
+        ])
+      ])
+    ]);
+  }
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-8ed22fda"], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/components/grid-view-item/grid-view-item.vue"]]);
+  const _sfc_main$b = {
+    name: "UniGridItem",
+    inject: ["grid"],
+    props: {
+      index: {
+        type: Number,
+        default: 0
+      }
+    },
+    data() {
+      return {
+        column: 0,
+        showBorder: true,
+        square: true,
+        highlight: true,
+        left: 0,
+        top: 0,
+        openNum: 2,
+        width: 0,
+        borderColor: "#e5e5e5"
+      };
+    },
+    created() {
+      this.column = this.grid.column;
+      this.showBorder = this.grid.showBorder;
+      this.square = this.grid.square;
+      this.highlight = this.grid.highlight;
+      this.top = this.hor === 0 ? this.grid.hor : this.hor;
+      this.left = this.ver === 0 ? this.grid.ver : this.ver;
+      this.borderColor = this.grid.borderColor;
+      this.grid.children.push(this);
+      this.width = this.grid.width;
+    },
+    beforeDestroy() {
+      this.grid.children.forEach((item, index) => {
+        if (item === this) {
+          this.grid.children.splice(index, 1);
+        }
+      });
+    },
+    methods: {
+      _onClick() {
+        this.grid.change({
+          detail: {
+            index: this.index
+          }
+        });
+      }
+    }
+  };
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+    return $data.width ? (vue.openBlock(), vue.createElementBlock(
+      "view",
+      {
+        key: 0,
+        style: vue.normalizeStyle("width:" + $data.width + ";" + ($data.square ? "height:" + $data.width : "")),
+        class: "uni-grid-item"
+      },
+      [
+        vue.createElementVNode(
+          "view",
+          {
+            class: vue.normalizeClass([{ "uni-grid-item--border": $data.showBorder, "uni-grid-item--border-top": $data.showBorder && $props.index < $data.column, "uni-highlight": $data.highlight }, "uni-grid-item__box"]),
+            style: vue.normalizeStyle({ "border-right-color": $data.borderColor, "border-bottom-color": $data.borderColor, "border-top-color": $data.borderColor }),
+            onClick: _cache[0] || (_cache[0] = (...args) => $options._onClick && $options._onClick(...args))
+          },
+          [
+            vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
+          ],
+          6
+          /* CLASS, STYLE */
+        )
+      ],
+      4
+      /* STYLE */
+    )) : vue.createCommentVNode("v-if", true);
+  }
+  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-7a807eb7"], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/uni_modules/uni-grid/components/uni-grid-item/uni-grid-item.vue"]]);
+  const _sfc_main$a = {
+    name: "UniGrid",
+    emits: ["change"],
+    props: {
+      // 每列显示个数
+      column: {
+        type: Number,
+        default: 3
+      },
+      // 是否显示边框
+      showBorder: {
+        type: Boolean,
+        default: true
+      },
+      // 边框颜色
+      borderColor: {
+        type: String,
+        default: "#D2D2D2"
+      },
+      // 是否正方形显示,默认为 true
+      square: {
+        type: Boolean,
+        default: true
+      },
+      highlight: {
+        type: Boolean,
+        default: true
+      }
+    },
+    provide() {
+      return {
+        grid: this
+      };
+    },
+    data() {
+      const elId = `Uni_${Math.ceil(Math.random() * 1e6).toString(36)}`;
+      return {
+        elId,
+        width: 0
+      };
+    },
+    created() {
+      this.children = [];
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.init();
+      });
+    },
+    methods: {
+      init() {
+        setTimeout(() => {
+          this._getSize((width) => {
+            this.children.forEach((item, index) => {
+              item.width = width;
+            });
+          });
+        }, 50);
+      },
+      change(e) {
+        this.$emit("change", e);
+      },
+      _getSize(fn) {
+        uni.createSelectorQuery().in(this).select(`#${this.elId}`).boundingClientRect().exec((ret) => {
+          this.width = parseInt((ret[0].width - 1) / this.column) + "px";
+          fn(this.width);
+        });
+      }
+    }
+  };
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "uni-grid-wrap" }, [
+      vue.createElementVNode("view", {
+        id: $data.elId,
+        ref: "uni-grid",
+        class: vue.normalizeClass(["uni-grid", { "uni-grid--border": $props.showBorder }]),
+        style: vue.normalizeStyle({ "border-left-color": $props.borderColor })
+      }, [
+        vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
+      ], 14, ["id"])
+    ]);
+  }
+  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-07acefee"], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/uni_modules/uni-grid/components/uni-grid/uni-grid.vue"]]);
   var isVue2 = false;
   function set(target, key, val) {
     if (Array.isArray(target)) {
@@ -249,13 +497,13 @@ if (uni.restoreGlobal) {
     }
   }
   /*!
-    * pinia v2.0.23
-    * (c) 2022 Eduardo San Martin Morote
-    * @license MIT
-    */
+   * pinia v2.1.7
+   * (c) 2023 Eduardo San Martin Morote
+   * @license MIT
+   */
   let activePinia;
   const setActivePinia = (pinia) => activePinia = pinia;
-  const getActivePinia = () => vue.getCurrentInstance() && vue.inject(piniaSymbol) || activePinia;
+  const getActivePinia = () => vue.hasInjectionContext() && vue.inject(piniaSymbol) || activePinia;
   const piniaSymbol = Symbol("pinia");
   function isPlainObject(o) {
     return o && typeof o === "object" && Object.prototype.toString.call(o) === "[object Object]" && typeof o.toJSON !== "function";
@@ -308,7 +556,16 @@ if (uni.restoreGlobal) {
   const _navigator = typeof navigator === "object" ? navigator : { userAgent: "" };
   const isMacOSWebView = /* @__PURE__ */ (() => /Macintosh/.test(_navigator.userAgent) && /AppleWebKit/.test(_navigator.userAgent) && !/Safari/.test(_navigator.userAgent))();
   const saveAs = !IS_CLIENT ? () => {
-  } : typeof HTMLAnchorElement !== "undefined" && "download" in HTMLAnchorElement.prototype && !isMacOSWebView ? downloadSaveAs : "msSaveOrOpenBlob" in _navigator ? msSaveAs : fileSaverSaveAs;
+  } : (
+    // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView or mini program
+    typeof HTMLAnchorElement !== "undefined" && "download" in HTMLAnchorElement.prototype && !isMacOSWebView ? downloadSaveAs : (
+      // Use msSaveOrOpenBlob as a second approach
+      "msSaveOrOpenBlob" in _navigator ? msSaveAs : (
+        // Fallback to using FileReader and a popup
+        fileSaverSaveAs
+      )
+    )
+  );
   function downloadSaveAs(blob, name = "download", opts) {
     const a = document.createElement("a");
     a.download = name;
@@ -391,7 +648,7 @@ if (uni.restoreGlobal) {
     }
   }
   function toastMessage(message, type) {
-    const piniaMessage = "\u{1F34D} " + message;
+    const piniaMessage = "🍍 " + message;
     if (typeof __VUE_DEVTOOLS_TOAST__ === "function") {
       __VUE_DEVTOOLS_TOAST__(piniaMessage, type);
     } else if (type === "error") {
@@ -435,7 +692,7 @@ if (uni.restoreGlobal) {
     if (checkClipboardAccess())
       return;
     try {
-      pinia.state.value = JSON.parse(await navigator.clipboard.readText());
+      loadStoresState(pinia, JSON.parse(await navigator.clipboard.readText()));
       toastMessage("Global state pasted from clipboard.");
     } catch (error) {
       if (checkNotFocusedError(error))
@@ -481,16 +738,26 @@ if (uni.restoreGlobal) {
   }
   async function actionGlobalOpenStateFile(pinia) {
     try {
-      const open2 = await getFileOpener();
+      const open2 = getFileOpener();
       const result = await open2();
       if (!result)
         return;
       const { text, file } = result;
-      pinia.state.value = JSON.parse(text);
+      loadStoresState(pinia, JSON.parse(text));
       toastMessage(`Global state imported from "${file.name}".`);
     } catch (error) {
-      toastMessage(`Failed to export the state as JSON. Check the console for more details.`, "error");
+      toastMessage(`Failed to import the state from JSON. Check the console for more details.`, "error");
       console.error(error);
+    }
+  }
+  function loadStoresState(pinia, state) {
+    for (const key in state) {
+      const storeState = pinia.state.value[key];
+      if (storeState) {
+        Object.assign(storeState, state[key]);
+      } else {
+        pinia.state.value[key] = state[key];
+      }
     }
   }
   function formatDisplay(display) {
@@ -500,7 +767,7 @@ if (uni.restoreGlobal) {
       }
     };
   }
-  const PINIA_ROOT_LABEL = "\u{1F34D} Pinia (root)";
+  const PINIA_ROOT_LABEL = "🍍 Pinia (root)";
   const PINIA_ROOT_ID = "_root";
   function formatStoreForInspectorTree(store) {
     return isPinia(store) ? {
@@ -599,11 +866,12 @@ if (uni.restoreGlobal) {
   const componentStateTypes = [];
   const MUTATIONS_LAYER_ID = "pinia:mutations";
   const INSPECTOR_ID = "pinia";
-  const getStoreType = (id) => "\u{1F34D} " + id;
+  const { assign: assign$1 } = Object;
+  const getStoreType = (id) => "🍍 " + id;
   function registerPiniaDevtools(app, pinia) {
     setupDevtoolsPlugin({
       id: "dev.esm.pinia",
-      label: "Pinia \u{1F34D}",
+      label: "Pinia 🍍",
       logo: "https://pinia.vuejs.org/logo.svg",
       packageName: "pinia",
       homepage: "https://pinia.vuejs.org",
@@ -615,12 +883,12 @@ if (uni.restoreGlobal) {
       }
       api.addTimelineLayer({
         id: MUTATIONS_LAYER_ID,
-        label: `Pinia \u{1F34D}`,
+        label: `Pinia 🍍`,
         color: 15064968
       });
       api.addInspector({
         id: INSPECTOR_ID,
-        label: "Pinia \u{1F34D}",
+        label: "Pinia 🍍",
         icon: "storage",
         treeFilterPlaceholder: "Search stores",
         actions: [
@@ -660,13 +928,13 @@ if (uni.restoreGlobal) {
         nodeActions: [
           {
             icon: "restore",
-            tooltip: "Reset the state (option store only)",
+            tooltip: 'Reset the state (with "$reset")',
             action: (nodeId) => {
               const store = pinia._s.get(nodeId);
               if (!store) {
                 toastMessage(`Cannot reset "${nodeId}" store because it wasn't found.`, "warn");
-              } else if (!store._isOptionsAPI) {
-                toastMessage(`Cannot reset "${nodeId}" store because it's a setup store.`, "warn");
+              } else if (typeof store.$reset !== "function") {
+                toastMessage(`Cannot reset "${nodeId}" store because it doesn't have a "$reset" method implemented.`, "warn");
               } else {
                 store.$reset();
                 toastMessage(`Store "${nodeId}" reset.`);
@@ -695,10 +963,13 @@ if (uni.restoreGlobal) {
                     }
                   ]
                 }
-              } : Object.keys(store.$state).reduce((state, key) => {
-                state[key] = store.$state[key];
-                return state;
-              }, {})
+              } : (
+                // NOTE: workaround to unwrap transferred refs
+                Object.keys(store.$state).reduce((state, key) => {
+                  state[key] = store.$state[key];
+                  return state;
+                }, {})
+              )
             });
             if (store._getters && store._getters.length) {
               payload.instanceData.state.push({
@@ -756,7 +1027,7 @@ if (uni.restoreGlobal) {
         }
       });
       api.on.editComponentState((payload) => {
-        if (payload.type.startsWith("\u{1F34D}")) {
+        if (payload.type.startsWith("🍍")) {
           const storeId = payload.type.replace(/^🍍\s*/, "");
           const store = pinia._s.get(storeId);
           if (!store) {
@@ -782,7 +1053,7 @@ Only state can be modified.`);
     }
     setupDevtoolsPlugin({
       id: "dev.esm.pinia",
-      label: "Pinia \u{1F34D}",
+      label: "Pinia 🍍",
       logo: "https://pinia.vuejs.org/logo.svg",
       packageName: "pinia",
       homepage: "https://pinia.vuejs.org",
@@ -794,6 +1065,11 @@ Only state can be modified.`);
           type: "boolean",
           defaultValue: true
         }
+        // useEmojis: {
+        //   label: 'Use emojis in messages ⚡️',
+        //   type: 'boolean',
+        //   defaultValue: true,
+        // },
       }
     }, (api) => {
       const now2 = typeof api.now === "function" ? api.now.bind(api) : Date.now;
@@ -803,7 +1079,7 @@ Only state can be modified.`);
           layerId: MUTATIONS_LAYER_ID,
           event: {
             time: now2(),
-            title: "\u{1F6EB} " + name,
+            title: "🛫 " + name,
             subtitle: "start",
             data: {
               store: formatDisplay(store.$id),
@@ -819,7 +1095,7 @@ Only state can be modified.`);
             layerId: MUTATIONS_LAYER_ID,
             event: {
               time: now2(),
-              title: "\u{1F6EC} " + name,
+              title: "🛬 " + name,
               subtitle: "end",
               data: {
                 store: formatDisplay(store.$id),
@@ -838,7 +1114,7 @@ Only state can be modified.`);
             event: {
               time: now2(),
               logType: "error",
-              title: "\u{1F4A5} " + name,
+              title: "💥 " + name,
               subtitle: "end",
               data: {
                 store: formatDisplay(store.$id),
@@ -880,17 +1156,13 @@ Only state can be modified.`);
         const eventData = {
           time: now2(),
           title: formatMutationType(type),
-          data: {
-            store: formatDisplay(store.$id),
-            ...formatEventData(events)
-          },
+          data: assign$1({ store: formatDisplay(store.$id) }, formatEventData(events)),
           groupId: activeAction
         };
-        activeAction = void 0;
         if (type === MutationType.patchFunction) {
-          eventData.subtitle = "\u2935\uFE0F";
+          eventData.subtitle = "⤵️";
         } else if (type === MutationType.patchObject) {
-          eventData.subtitle = "\u{1F9E9}";
+          eventData.subtitle = "🧩";
         } else if (events && !Array.isArray(events)) {
           eventData.subtitle = events.type;
         }
@@ -916,7 +1188,7 @@ Only state can be modified.`);
           layerId: MUTATIONS_LAYER_ID,
           event: {
             time: now2(),
-            title: "\u{1F525} " + store.$id,
+            title: "🔥 " + store.$id,
             subtitle: "HMR update",
             data: {
               store: formatDisplay(store.$id),
@@ -934,17 +1206,17 @@ Only state can be modified.`);
         api.notifyComponentUpdate();
         api.sendInspectorTree(INSPECTOR_ID);
         api.sendInspectorState(INSPECTOR_ID);
-        api.getSettings().logStoreChanges && toastMessage(`Disposed "${store.$id}" store \u{1F5D1}`);
+        api.getSettings().logStoreChanges && toastMessage(`Disposed "${store.$id}" store 🗑`);
       };
       api.notifyComponentUpdate();
       api.sendInspectorTree(INSPECTOR_ID);
       api.sendInspectorState(INSPECTOR_ID);
-      api.getSettings().logStoreChanges && toastMessage(`"${store.$id}" store installed \u{1F195}`);
+      api.getSettings().logStoreChanges && toastMessage(`"${store.$id}" store installed 🆕`);
     });
   }
   let runningActionId = 0;
   let activeAction;
-  function patchActionForGrouping(store, actionNames) {
+  function patchActionForGrouping(store, actionNames, wrapWithProxy) {
     const actions = actionNames.reduce((storeActions, actionName) => {
       storeActions[actionName] = vue.toRaw(store)[actionName];
       return storeActions;
@@ -952,7 +1224,7 @@ Only state can be modified.`);
     for (const actionName in actions) {
       store[actionName] = function() {
         const _actionId = runningActionId;
-        const trackedStore = new Proxy(store, {
+        const trackedStore = wrapWithProxy ? new Proxy(store, {
           get(...args) {
             activeAction = _actionId;
             return Reflect.get(...args);
@@ -961,8 +1233,11 @@ Only state can be modified.`);
             activeAction = _actionId;
             return Reflect.set(...args);
           }
-        });
-        return actions[actionName].apply(trackedStore, arguments);
+        }) : store;
+        activeAction = _actionId;
+        const retValue = actions[actionName].apply(trackedStore, arguments);
+        activeAction = void 0;
+        return retValue;
       };
     }
   }
@@ -970,22 +1245,16 @@ Only state can be modified.`);
     if (store.$id.startsWith("__hot:")) {
       return;
     }
-    if (options.state) {
-      store._isOptionsAPI = true;
-    }
-    if (typeof options.state === "function") {
-      patchActionForGrouping(
-        store,
-        Object.keys(options.actions)
-      );
-      const originalHotUpdate = store._hotUpdate;
-      vue.toRaw(store)._hotUpdate = function(newStore) {
-        originalHotUpdate.apply(this, arguments);
-        patchActionForGrouping(store, Object.keys(newStore._hmrPayload.actions));
-      };
-    }
+    store._isOptionsAPI = !!options.state;
+    patchActionForGrouping(store, Object.keys(options.actions), store._isOptionsAPI);
+    const originalHotUpdate = store._hotUpdate;
+    vue.toRaw(store)._hotUpdate = function(newStore) {
+      originalHotUpdate.apply(this, arguments);
+      patchActionForGrouping(store, Object.keys(newStore._hmrPayload.actions), !!store._isOptionsAPI);
+    };
     addStoreToDevtools(
       app,
+      // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
       store
     );
   }
@@ -1017,6 +1286,8 @@ Only state can be modified.`);
         return this;
       },
       _p,
+      // it's actually undefined here
+      // @ts-expect-error
       _a: null,
       _e: scope,
       _s: /* @__PURE__ */ new Map(),
@@ -1083,8 +1354,8 @@ Only state can be modified.`);
         onCleanup();
       }
     };
-    if (!detached && vue.getCurrentInstance()) {
-      vue.onUnmounted(removeSubscription);
+    if (!detached && vue.getCurrentScope()) {
+      vue.onScopeDispose(removeSubscription);
     }
     return removeSubscription;
   }
@@ -1093,6 +1364,7 @@ Only state can be modified.`);
       callback(...args);
     });
   }
+  const fallbackRunWithContext = (fn) => fn();
   function mergeReactiveObjects(target, patchToApply) {
     if (target instanceof Map && patchToApply instanceof Map) {
       patchToApply.forEach((value, key) => target.set(key, value));
@@ -1134,10 +1406,13 @@ Only state can be modified.`);
           pinia.state.value[id] = state ? state() : {};
         }
       }
-      const localState = hot ? vue.toRefs(vue.ref(state ? state() : {}).value) : vue.toRefs(pinia.state.value[id]);
+      const localState = hot ? (
+        // use ref() to unwrap refs inside state TODO: check if this is still necessary
+        vue.toRefs(vue.ref(state ? state() : {}).value)
+      ) : vue.toRefs(pinia.state.value[id]);
       return assign(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
         if (name in localState) {
-          console.warn(`[\u{1F34D}]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`);
+          console.warn(`[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`);
         }
         computedGetters[name] = vue.markRaw(vue.computed(() => {
           setActivePinia(pinia);
@@ -1148,12 +1423,6 @@ Only state can be modified.`);
       }, {}));
     }
     store = createSetupStore(id, setup, options, pinia, hot, true);
-    store.$reset = function $reset() {
-      const newState = state ? state() : {};
-      this.$patch(($state) => {
-        assign($state, newState);
-      });
-    };
     return store;
   }
   function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) {
@@ -1164,6 +1433,7 @@ Only state can be modified.`);
     }
     const $subscribeOptions = {
       deep: true
+      // flush: 'post',
     };
     {
       $subscribeOptions.onTrigger = (event) => {
@@ -1173,15 +1443,15 @@ Only state can be modified.`);
           if (Array.isArray(debuggerEvents)) {
             debuggerEvents.push(event);
           } else {
-            console.error("\u{1F34D} debuggerEvents should be an array. This is most likely an internal Pinia bug.");
+            console.error("🍍 debuggerEvents should be an array. This is most likely an internal Pinia bug.");
           }
         }
       };
     }
     let isListening;
     let isSyncListening;
-    let subscriptions = vue.markRaw([]);
-    let actionSubscriptions = vue.markRaw([]);
+    let subscriptions = [];
+    let actionSubscriptions = [];
     let debuggerEvents;
     const initialState = pinia.state.value[$id];
     if (!isOptionsStore && !initialState && !hot) {
@@ -1222,9 +1492,18 @@ Only state can be modified.`);
       isSyncListening = true;
       triggerSubscriptions(subscriptions, subscriptionMutation, pinia.state.value[$id]);
     }
-    const $reset = () => {
-      throw new Error(`\u{1F34D}: Store "${$id}" is built using the setup syntax and does not implement $reset().`);
-    };
+    const $reset = isOptionsStore ? function $reset2() {
+      const { state } = options;
+      const newState = state ? state() : {};
+      this.$patch(($state) => {
+        assign($state, newState);
+      });
+    } : (
+      /* istanbul ignore next */
+      () => {
+        throw new Error(`🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`);
+      }
+    );
     function $dispose() {
       scope.stop();
       subscriptions = [];
@@ -1278,6 +1557,7 @@ Only state can be modified.`);
     });
     const partialStore = {
       _p: pinia,
+      // _s: scope,
       $id,
       $onAction: addSubscription.bind(null, actionSubscriptions),
       $patch,
@@ -1297,20 +1577,19 @@ Only state can be modified.`);
       },
       $dispose
     };
-    const store = vue.reactive(
-      assign(
-        {
-          _hmrPayload,
-          _customProperties: vue.markRaw(/* @__PURE__ */ new Set())
-        },
-        partialStore
-      )
-    );
+    const store = vue.reactive(assign(
+      {
+        _hmrPayload,
+        _customProperties: vue.markRaw(/* @__PURE__ */ new Set())
+        // devtools custom properties
+      },
+      partialStore
+      // must be added later
+      // setupStore
+    ));
     pinia._s.set($id, store);
-    const setupStore = pinia._e.run(() => {
-      scope = vue.effectScope();
-      return scope.run(() => setup());
-    });
+    const runWithContext = pinia._a && pinia._a.runWithContext || fallbackRunWithContext;
+    const setupStore = runWithContext(() => pinia._e.run(() => (scope = vue.effectScope()).run(setup)));
     for (const key in setupStore) {
       const prop = setupStore[key];
       if (vue.isRef(prop) && !isComputed(prop) || vue.isReactive(prop)) {
@@ -1342,9 +1621,13 @@ Only state can be modified.`);
         optionsForPlugin.actions[key] = prop;
       } else {
         if (isComputed(prop)) {
-          _hmrPayload.getters[key] = isOptionsStore ? options.getters[key] : prop;
+          _hmrPayload.getters[key] = isOptionsStore ? (
+            // @ts-expect-error
+            options.getters[key]
+          ) : prop;
           if (IS_CLIENT) {
-            const getters = setupStore._getters || (setupStore._getters = vue.markRaw([]));
+            const getters = setupStore._getters || // @ts-expect-error: same
+            (setupStore._getters = vue.markRaw([]));
             getters.push(key);
           }
         }
@@ -1398,10 +1681,13 @@ Only state can be modified.`);
         }
         for (const getterName in newStore._hmrPayload.getters) {
           const getter = newStore._hmrPayload.getters[getterName];
-          const getterValue = isOptionsStore ? vue.computed(() => {
-            setActivePinia(pinia);
-            return getter.call(store, store);
-          }) : getter;
+          const getterValue = isOptionsStore ? (
+            // special handling of options api
+            vue.computed(() => {
+              setActivePinia(pinia);
+              return getter.call(store, store);
+            })
+          ) : getter;
           set(store, getterName, getterValue);
         }
         Object.keys(store._hmrPayload.getters).forEach((key) => {
@@ -1423,13 +1709,11 @@ Only state can be modified.`);
       const nonEnumerable = {
         writable: true,
         configurable: true,
+        // avoid warning on devtools trying to display this property
         enumerable: false
       };
       ["_p", "_hmrPayload", "_getters", "_customProperties"].forEach((p) => {
-        Object.defineProperty(store, p, {
-          value: store[p],
-          ...nonEnumerable
-        });
+        Object.defineProperty(store, p, assign({ value: store[p] }, nonEnumerable));
       });
     }
     pinia._p.forEach((extender) => {
@@ -1452,7 +1736,7 @@ Only state can be modified.`);
       }
     });
     if (store.$state && typeof store.$state === "object" && typeof store.$state.constructor === "function" && !store.$state.constructor.toString().includes("[native code]")) {
-      console.warn(`[\u{1F34D}]: The "state" must be a plain object. It cannot be
+      console.warn(`[🍍]: The "state" must be a plain object. It cannot be
 	state: () => new MyClass()
 Found in store "${store.$id}".`);
     }
@@ -1473,16 +1757,20 @@ Found in store "${store.$id}".`);
     } else {
       options = idOrOptions;
       id = idOrOptions.id;
+      if (typeof id !== "string") {
+        throw new Error(`[🍍]: "defineStore()" must be passed a store id as its first argument.`);
+      }
     }
     function useStore(pinia, hot) {
-      const currentInstance = vue.getCurrentInstance();
-      pinia = pinia || currentInstance && vue.inject(piniaSymbol);
+      const hasContext = vue.hasInjectionContext();
+      pinia = // in test mode, ignore the argument provided as we can always retrieve a
+      // pinia instance with getActivePinia()
+      pinia || (hasContext ? vue.inject(piniaSymbol, null) : null);
       if (pinia)
         setActivePinia(pinia);
       if (!activePinia) {
-        throw new Error(`[\u{1F34D}]: getActivePinia was called with no active Pinia. Did you forget to install pinia?
-	const pinia = createPinia()
-	app.use(pinia)
+        throw new Error(`[🍍]: "getActivePinia()" was called but there was no active Pinia. Are you trying to use a store before calling "app.use(pinia)"?
+See https://pinia.vuejs.org/core-concepts/outside-component-usage.html for help.
 This will fail in production.`);
       }
       pinia = activePinia;
@@ -1504,10 +1792,14 @@ This will fail in production.`);
         delete pinia.state.value[hotId];
         pinia._s.delete(hotId);
       }
-      if (IS_CLIENT && currentInstance && currentInstance.proxy && !hot) {
-        const vm = currentInstance.proxy;
-        const cache = "_pStores" in vm ? vm._pStores : vm._pStores = {};
-        cache[id] = store;
+      if (IS_CLIENT) {
+        const currentInstance = vue.getCurrentInstance();
+        if (currentInstance && currentInstance.proxy && // avoid adding stores that are just built for hot module replacement
+        !hot) {
+          const vm = currentInstance.proxy;
+          const cache = "_pStores" in vm ? vm._pStores : vm._pStores = {};
+          cache[id] = store;
+        }
       }
       return store;
     }
@@ -1520,7 +1812,7 @@ This will fail in production.`);
   }
   function mapStores(...stores) {
     if (Array.isArray(stores[0])) {
-      console.warn(`[\u{1F34D}]: Directly pass all stores to "mapStores()" without putting them in an array:
+      console.warn(`[🍍]: Directly pass all stores to "mapStores()" without putting them in an array:
 Replace
 	mapStores([useAuthStore, useCartStore])
 with
@@ -1594,7 +1886,8 @@ This will fail in production if not fixed.`);
       for (const key in store) {
         const value = store[key];
         if (vue.isRef(value) || vue.isReactive(value)) {
-          refs[key] = vue.toRef(store, key);
+          refs[key] = // ---
+          vue.toRef(store, key);
         }
       }
       return refs;
@@ -1683,24 +1976,154 @@ This will fail in production if not fixed.`);
   const getHomeMutidata = () => {
     return hyRequest.get("/home/multidata", {});
   };
+  const getHomeData = (type, page) => {
+    return hyRequest.get("/home/data", {
+      type,
+      page
+    });
+  };
+  const types = ["pop", "new", "sell"];
+  function getDefaultGoodsListData() {
+    let goodsListOrign = {};
+    types.forEach((type) => {
+      goodsListOrign[type] = { page: 0, list: [] };
+    });
+    return goodsListOrign;
+  }
   const useHomeStore = defineStore("home", {
     state: () => {
       return {
         banners: [],
-        recommends: []
+        recommends: [],
+        currentType: "pop",
+        // pop new sell
+        goodsList: getDefaultGoodsListData()
       };
     },
     actions: {
+      setCurrentType(type) {
+        this.currentType = type;
+      },
+      // 获取首页轮播图和推荐栏的数据(异步的action)
       async fetchHomeMultidata() {
         const res = await getHomeMutidata();
         this.banners = res.data.banner.list || [];
         this.recommends = res.data.recommend.list || [];
+      },
+      async fetchHomeData(type, page) {
+        formatAppLog("log", "at store/home.js:34", type, page);
+        const res = await getHomeData(type, page);
+        this.goodsList[type].list.push(...res.data.list);
+        this.goodsList[type].page = page;
       }
     }
   });
+  const _sfc_main$9 = {
+    __name: "home-banner",
+    props: {
+      banners: {
+        type: Array,
+        default: () => []
+      }
+    },
+    emits: ["bannerItemClick"],
+    setup(__props, { expose: __expose, emit: __emit }) {
+      __expose();
+      const props = __props;
+      const emit = __emit;
+      function handleItemClick(item) {
+        emit("bannerItemClick", item.link);
+      }
+      const __returned__ = { props, emit, handleItemClick };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("swiper", {
+      class: "banner",
+      "indicator-dots": true,
+      "indicator-active-color": "#ff8198",
+      autoplay: true,
+      interval: 3e3,
+      duration: 1e3
+    }, [
+      (vue.openBlock(true), vue.createElementBlock(
+        vue.Fragment,
+        null,
+        vue.renderList($props.banners, (item) => {
+          return vue.openBlock(), vue.createElementBlock("swiper-item", {
+            key: item,
+            onClick: ($event) => $setup.handleItemClick(item)
+          }, [
+            vue.createElementVNode("image", {
+              class: "image",
+              src: item.image,
+              mode: "widthFix"
+            }, null, 8, ["src"])
+          ], 8, ["onClick"]);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ]);
+  }
+  const HomeBanner = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-945d8e98"], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/home/cpns/home-banner.vue"]]);
+  const _sfc_main$8 = {
+    __name: "home-recommend",
+    props: {
+      recommends: {
+        type: Array,
+        default: () => []
+      }
+    },
+    emits: ["itemClick"],
+    setup(__props, { expose: __expose, emit: __emit }) {
+      __expose();
+      const props = __props;
+      const emit = __emit;
+      function handleItemClick(item) {
+        emit("itemClick", item);
+      }
+      const __returned__ = { props, emit, handleItemClick };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "recommend" }, [
+      (vue.openBlock(true), vue.createElementBlock(
+        vue.Fragment,
+        null,
+        vue.renderList($props.recommends, (item) => {
+          return vue.openBlock(), vue.createElementBlock("view", {
+            key: item,
+            class: "recommend-item",
+            onClick: ($event) => $setup.handleItemClick(item)
+          }, [
+            vue.createElementVNode("image", {
+              class: "image",
+              src: item.image,
+              mode: "widthFix"
+            }, null, 8, ["src"]),
+            vue.createElementVNode(
+              "view",
+              { class: "title" },
+              vue.toDisplayString(item.title),
+              1
+              /* TEXT */
+            )
+          ], 8, ["onClick"]);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ]);
+  }
+  const HomeRecommend = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-637e2969"], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/home/cpns/home-recommend.vue"]]);
   const _imports_0 = "/static/recommend_bg.jpg";
   const _sfc_main$7 = {};
-  function _sfc_render$4(_ctx, _cache) {
+  function _sfc_render$6(_ctx, _cache) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "popular" }, [
       vue.createElementVNode("image", {
         class: "image",
@@ -1709,38 +2132,117 @@ This will fail in production if not fixed.`);
       })
     ]);
   }
-  const HomePopular = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$4], ["__scopeId", "data-v-29e3ef9e"], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/home/cpns/home-popular.vue"]]);
+  const HomePopular = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-29e3ef9e"], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/home/cpns/home-popular.vue"]]);
   const _sfc_main$6 = {
     __name: "home",
-    setup(__props) {
+    setup(__props, { expose: __expose }) {
+      __expose();
       const homeStore = useHomeStore();
-      storeToRefs(homeStore);
+      const { banners, recommends, goodsList, currentType } = storeToRefs(homeStore);
       onLoad(() => {
         homeStore.fetchHomeMultidata();
+        homeStore.fetchHomeData("pop", 1);
+        homeStore.fetchHomeData("new", 1);
+        homeStore.fetchHomeData("sell", 1);
       });
-      function handleTabItemClick(index) {
-        formatAppLog("log", "at pages/home/home.vue:43", "handleTabItemClick=>", index);
+      onReachBottom(() => {
+        homeStore.fetchHomeData(currentType.value, goodsList.value[currentType.value].page + 1);
+      });
+      function handleBannerItemClick(link) {
+        uni.navigateTo({
+          url: "/pages/webview/webview?link=" + link
+        });
       }
-      return (_ctx, _cache) => {
-        const _component_tab_control = resolveEasycom(vue.resolveDynamicComponent("tab-control"), __easycom_0);
-        return vue.openBlock(), vue.createElementBlock("view", { class: "home" }, [
-          vue.createCommentVNode(" \u8F6E\u64AD\u56FE\u7EC4\u4EF6 "),
-          vue.createCommentVNode(' <home-banner :banners="banners" @bannerItemClick="handleBannerItemClick"></home-banner> '),
-          vue.createCommentVNode(" \u63A8\u8350\u680F\u7EC4\u4EF6 "),
-          vue.createCommentVNode(' <home-recommend :recommends="recommends"></home-recommend> '),
-          vue.createCommentVNode(" \u70ED\u95E8\u680F\u7EC4\u4EF6 "),
-          vue.createVNode(HomePopular),
-          vue.createCommentVNode(" \u9009\u9879\u5361\u7EC4\u4EF6 "),
-          vue.createVNode(_component_tab_control, {
-            titles: ["\u6D41\u884C", "\u65B0\u6B3E", "\u7CBE\u9009"],
-            onTabItemClick: handleTabItemClick
-          })
-        ]);
-      };
+      function handleTabItemClick(index) {
+        homeStore.setCurrentType(types[index]);
+      }
+      function handleGridItemClick(itemInfo) {
+        uni.navigateTo({
+          url: "/pages/detail/detail?iid=" + itemInfo.iid
+        });
+      }
+      const __returned__ = { homeStore, banners, recommends, goodsList, currentType, handleBannerItemClick, handleTabItemClick, handleGridItemClick, onMounted: vue.onMounted, get onLoad() {
+        return onLoad;
+      }, get onReachBottom() {
+        return onReachBottom;
+      }, get storeToRefs() {
+        return storeToRefs;
+      }, get useHomeStore() {
+        return useHomeStore;
+      }, get types() {
+        return types;
+      }, HomeBanner, HomeRecommend, HomePopular };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
     }
   };
-  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/home/home.vue"]]);
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_tab_control = resolveEasycom(vue.resolveDynamicComponent("tab-control"), __easycom_0);
+    const _component_grid_view_item = resolveEasycom(vue.resolveDynamicComponent("grid-view-item"), __easycom_1);
+    const _component_uni_grid_item = resolveEasycom(vue.resolveDynamicComponent("uni-grid-item"), __easycom_2);
+    const _component_uni_grid = resolveEasycom(vue.resolveDynamicComponent("uni-grid"), __easycom_3);
+    return vue.openBlock(), vue.createElementBlock("view", { class: "home" }, [
+      vue.createCommentVNode(" 轮播图组件 "),
+      vue.createVNode($setup["HomeBanner"], {
+        banners: $setup.banners,
+        onBannerItemClick: $setup.handleBannerItemClick
+      }, null, 8, ["banners"]),
+      vue.createCommentVNode(" 推荐栏组件 "),
+      vue.createVNode($setup["HomeRecommend"], { recommends: $setup.recommends }, null, 8, ["recommends"]),
+      vue.createCommentVNode(" 热门栏组件 "),
+      vue.createVNode($setup["HomePopular"]),
+      vue.createCommentVNode(" 选项卡组件 "),
+      vue.createVNode(_component_tab_control, {
+        titles: ["流行", "新款", "精选"],
+        onTabItemClick: $setup.handleTabItemClick
+      }),
+      vue.createCommentVNode(" 九宫格组件 "),
+      vue.createVNode(_component_uni_grid, {
+        column: 2,
+        highlight: false,
+        showBorder: false,
+        square: false,
+        borderColor: "#ff8198"
+      }, {
+        default: vue.withCtx(() => [
+          (vue.openBlock(true), vue.createElementBlock(
+            vue.Fragment,
+            null,
+            vue.renderList($setup.goodsList[$setup.currentType].list, (itemInfo, index) => {
+              return vue.openBlock(), vue.createBlock(_component_uni_grid_item, {
+                key: itemInfo.iid,
+                index
+              }, {
+                default: vue.withCtx(() => [
+                  vue.createVNode(_component_grid_view_item, {
+                    itemInfo,
+                    onItemClick: $setup.handleGridItemClick
+                  }, null, 8, ["itemInfo"])
+                ]),
+                _: 2
+                /* DYNAMIC */
+              }, 1032, ["index"]);
+            }),
+            128
+            /* KEYED_FRAGMENT */
+          ))
+        ]),
+        _: 1
+        /* STABLE */
+      })
+    ]);
+  }
+  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/home/home.vue"]]);
   const _sfc_main$5 = {
+    data() {
+      return {};
+    }
+  };
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view");
+  }
+  const PagesCategoryCategory = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/category/category.vue"]]);
+  const _sfc_main$4 = {
     data() {
       return {};
     }
@@ -1748,8 +2250,8 @@ This will fail in production if not fixed.`);
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view");
   }
-  const PagesCategoryCategory = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$3], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/category/category.vue"]]);
-  const _sfc_main$4 = {
+  const PagesCartCart = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/cart/cart.vue"]]);
+  const _sfc_main$3 = {
     data() {
       return {};
     }
@@ -1757,25 +2259,35 @@ This will fail in production if not fixed.`);
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view");
   }
-  const PagesCartCart = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$2], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/cart/cart.vue"]]);
-  const _sfc_main$3 = {
-    data() {
-      return {};
+  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/profile/profile.vue"]]);
+  const _sfc_main$2 = {
+    __name: "detail",
+    props: {
+      iid: {
+        type: String,
+        default: ""
+      }
+    },
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const props = __props;
+      const __returned__ = { props, get onLoad() {
+        return onLoad;
+      } };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
     }
   };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view");
+    return vue.openBlock(), vue.createElementBlock(
+      "view",
+      null,
+      " iid:" + vue.toDisplayString($props.iid),
+      1
+      /* TEXT */
+    );
   }
-  const PagesProfileProfile = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$1], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/profile/profile.vue"]]);
-  const _sfc_main$2 = {
-    data() {
-      return {};
-    }
-  };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view");
-  }
-  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render], ["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/detail/detail.vue"]]);
+  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/detail/detail.vue"]]);
   const _sfc_main$1 = {
     __name: "webview",
     props: {
@@ -1784,13 +2296,17 @@ This will fail in production if not fixed.`);
         default: ""
       }
     },
-    setup(__props) {
-      return (_ctx, _cache) => {
-        return vue.openBlock(), vue.createElementBlock("web-view", { src: __props.link }, null, 8, ["src"]);
-      };
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const __returned__ = {};
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
     }
   };
-  const PagesWebviewWebview = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/pages/webview/webview.vue"]]);
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("web-view", { src: $props.link }, null, 8, ["src"]);
+  }
+  const PagesWebviewWebview = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/pages/webview/webview.vue"]]);
   __definePage("pages/home/home", PagesHomeHome);
   __definePage("pages/category/category", PagesCategoryCategory);
   __definePage("pages/cart/cart", PagesCartCart);
@@ -1808,7 +2324,7 @@ This will fail in production if not fixed.`);
       formatAppLog("log", "at App.vue:10", "App Hide");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "F:/\u5171\u4EAB\u7ED9\u5B66\u751F\u6587\u4EF6\u5939/\u4E0A\u8BFE\u8D44\u6599/13_\u9636\u6BB5\u5341\u4E09-\u8DE8\u5E73\u53F0\u5F00\u53D1uni-app\u548CTaro/code/01-uni-app/HYMallApp/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "C:/Users/26778/Desktop/my_project/HYMallApp/App.vue"]]);
   function createApp() {
     const app = vue.createVueApp(App);
     app.use(createPinia());
@@ -1825,4 +2341,4 @@ This will fail in production if not fixed.`);
   __app__._component.render = () => {
   };
   __app__.mount("#app");
-})(Vue, uni.VueShared);
+})(Vue);

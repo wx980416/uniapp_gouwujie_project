@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "tab-control": "../../components/tab-control/tab-control",
-    "home-popular": "./cpns/home-popular"
-  }
-}

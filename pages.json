@@ -3,6 +3,7 @@
 		{
 			"path": "pages/home/home",
 			"style": {
+				"onReachBottomDistance": 300
 			}
 		}, {
 			"path": "pages/category/category",
